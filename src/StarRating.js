@@ -30,7 +30,8 @@ export default function StarRating({ maxRating = 5 }) {
                     <Star
                         key={i}
                         full={
-                            tempRating ? tempRating >= i + 1 : rating >= i + 1
+                            // tempRating ? tempRating >= i + 1 : rating >= i + 1
+                            (tempRating || rating) >= i + 1
                         }
                         onRate={() => handleRating(i + 1)}
                         onHoverIn={() => setTempRating(i + 1)}
