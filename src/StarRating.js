@@ -24,7 +24,9 @@ export default function StarRating({
 
     function handleRating(rating) {
         setRating(rating); // internal rating
-        onSetRating(rating); // external rating
+        onSetRating?.(rating); // external rating
+        // onSetRating && onSetRating(rating); // external rating
+        // if (onSetRating) onSetRating(rating); // external rating
     }
 
     const textStyle = {
