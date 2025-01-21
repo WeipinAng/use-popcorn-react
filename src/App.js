@@ -131,6 +131,7 @@ export default function App() {
                             selectedId={selectedId}
                             onCloseMovie={handleCloseMovie}
                             onAddWatched={handleAddWatched}
+                            watched={watched}
                         />
                     ) : (
                         <>
@@ -271,10 +272,15 @@ function Movie({ movie, onSelectMovie }) {
     );
 }
 
-function MovieDetails({ selectedId, onCloseMovie, onAddWatched }) {
+function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
     const [movie, setMovie] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [userRating, setUserRating] = useState("");
+
+    const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+    const watchedUserRating = watched.find(
+        (movie) => movie.imdbID === selectedId
+    )?.userRating;
 
     const {
         Title: title,
@@ -346,15 +352,27 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched }) {
 
                     <section>
                         <div className="rating">
-                            <StarRating
-                                maxRating={10}
-                                size={24}
-                                onSetRating={setUserRating}
-                            />
-                            {userRating > 0 && (
-                                <button className="btn-add" onClick={handleAdd}>
-                                    + Add to list
-                                </button>
+                            {!isWatched ? (
+                                <>
+                                    <StarRating
+                                        maxRating={10}
+                                        size={24}
+                                        onSetRating={setUserRating}
+                                    />
+                                    {userRating > 0 && (
+                                        <button
+                                            className="btn-add"
+                                            onClick={handleAdd}
+                                        >
+                                            + Add to list
+                                        </button>
+                                    )}
+                                </>
+                            ) : (
+                                <p>
+                                    You rated this movie {watchedUserRating}{" "}
+                                    <span>⭐</span>
+                                </p>
                             )}
                         </div>
                         <p>
